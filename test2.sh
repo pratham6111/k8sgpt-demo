@@ -10,8 +10,6 @@ export project=$(curl -s -H "Metadata-Flavor: Google" \
 sudo apt-get update
 sudo apt-get install -y google-cloud-cli-gke-gcloud-auth-plugin kubectl
 
-
-# Install Helm and k8sgpt
 echo "[+] Installing Helm and k8sgpt..."
 
 curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
@@ -30,13 +28,11 @@ helm install release k8sgpt/k8sgpt-operator -n k8sgpt-operator-system --create-n
 curl -LO https://github.com/k8sgpt-ai/k8sgpt/releases/download/v0.4.1/k8sgpt_amd64.deb
 sudo dpkg -i k8sgpt_amd64.deb
 
-# Authenticate k8sgpt
 echo "Enter the API Key: "
 read key
 k8sgpt auth add --backend google --model="gemini-2.0-flash" --password="$key"
 
 
-# Wait for the cluster to be ready
 echo "[+] Waiting for GKE cluster 'lab-cluster' to be ready..."
 
 while true; do
@@ -51,6 +47,5 @@ while true; do
   fi
 done
 
-# Connect to the GKE cluster
 echo "[+] Setting up credentials for GKE cluster..."
 gcloud container clusters get-credentials lab-cluster --zone "$zone" --project "$project"
