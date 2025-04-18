@@ -3,7 +3,7 @@
 echo "Enter your zone: "
 read zone
 export zone=$zone
-export region="${zone%-*}"
+
 export project=$(curl -s -H "Metadata-Flavor: Google" \
   http://metadata.google.internal/computeMetadata/v1/project/project-id)
 
@@ -12,12 +12,12 @@ sudo apt-get update
 sudo apt-get install -y google-cloud-cli-gke-gcloud-auth-plugin kubectl
 
 
-cluster_name=$(gcloud container clusters list --region="$region" --format="value(name)")
+cluster_name=$(gcloud container clusters list --zone="$zone" --format="value(name)")
 
 if [ "$cluster_name" == "lab-cluster" ]; then
     echo "Cluster 'lab-cluster' found in zone $zone. Setting up credentials..."
 
-    gcloud container clusters get-credentials lab-cluster --region "$region" --project "$project"
+    gcloud container clusters get-credentials lab-cluster --zone "$zone" --project "$project"
 
     
     curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
