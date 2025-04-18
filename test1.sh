@@ -36,11 +36,13 @@ sleep 10
 echo "[+] Copying main2.sh to VM..."
 gcloud compute scp ./test2.sh $username@my-vm:/home/$username --zone=$zone --quiet
 
-echo "[+] Creating GKE cluster..."
-gcloud container clusters create lab-cluster \
+echo "[+] Creating GKE cluster in the background..."
+
+nohup gcloud container clusters create lab-cluster \
   --machine-type=e2-medium \
-  --zone=$zone \
+  --zone="$zone" \
   --num-nodes=2 \
-  --quiet
+  --quiet > cluster-create.log 2>&1 &
+
 
 gcloud compute ssh my-vm --zone=$zone
