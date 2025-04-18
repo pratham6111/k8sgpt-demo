@@ -4,7 +4,6 @@
 echo "enter your zone: "
 read zone
 export zone=$zone
-export region="${zone%-*}"
 
 
 username=$(gcloud auth list --format="value(account)" | awk -F@ '{print $1}')
@@ -38,9 +37,10 @@ echo "[+] Copying main2.sh to VM..."
 gcloud compute scp ./test2.sh $username@my-vm:/home/$username --zone=$zone --quiet
 
 echo "[+] Creating GKE cluster..."
-gcloud container clusters create-auto lab-cluster \
-  --region=$region \
+gcloud container clusters create lab-cluster \
+  --machine-type=e2-medium \
+  --zone=$zone \
+  --num-nodes=2 \
   --quiet
-
 
 gcloud compute ssh my-vm --zone=$zone
