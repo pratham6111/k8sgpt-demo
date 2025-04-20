@@ -6,7 +6,7 @@ read zone
 export zone=$zone
 
 
-username=$(gcloud auth list --format="value(account)" | awk -F@ '{print $1}')
+username=$(gcloud auth list --format="value(account)" | cut -d'@' -f1)
 export username
 
 echo "[+] Creating VM..."
