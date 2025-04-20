@@ -9,6 +9,11 @@ export zone=$zone
 username=$(gcloud auth list --format="value(account)" | cut -d'@' -f1)
 export username
 
+echo "[+] enabling API's......"
+gcloud services enable container.googleapis.com
+gcloud services enable compute.googleapis.com
+
+
 echo "[+] Creating VM..."
 gcloud compute instances create my-vm \
   --zone=$zone \
