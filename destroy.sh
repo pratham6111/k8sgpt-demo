@@ -21,5 +21,5 @@ nohup gcloud container clusters delete lab-cluster \
   --zone="$zone" \
   --quiet > gke-delete.log 2>&1 &
 
-echo "VM deletion done. GKE cluster is being deleted in the background."
+echo "[✅] VM deletion done. GKE cluster is being deleted in the background."
 echo "Check 'gke-delete.log' later to verify cluster deletion."
